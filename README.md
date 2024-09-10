@@ -1,8 +1,10 @@
-# Django-Basics-Prep
+# Django-Basics
 
 ---
 
 - [HTTP and Internet](https://forms.gle/SF9gSGPJta1CUkkz6)
+
+- [Django Introduction](https://forms.gle/j4t4yWyBXu42a1uu6)
 
 ---
 
