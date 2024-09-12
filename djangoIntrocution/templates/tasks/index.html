@@ -7,12 +7,26 @@
     document.addEventListener('DOMContentLoaded', function() {
         const inputField = document.querySelector('#title_filter');
         const submitBtn = document.querySelector('#submit');
+        let debounceTimeout;
+
+        // Focus on the input field and move the cursor to the end of the text
+        inputField.focus();
+        const length = inputField.value.length;  // Get the length of the text
+        inputField.setSelectionRange(length, length);  // Set the cursor at the end
         
-        inputField.addEventListener('change', function(e) {
+        // Function to debounce
+        function debounce(func, delay) {
+            return function(...args) {
+                clearTimeout(debounceTimeout);  // Clear the previous timeout
+                debounceTimeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Event listener for input change with debounce
+        inputField.addEventListener('input', debounce(function() {
             console.log('Input changed, submitting the form');
-            e.preventDefault();  // Prevent the form from submitting for testing
-            submitBtn.click();   // Trigger the button click
-        });
+            submitBtn.click();   // Trigger the button click after debounce
+        }, 500));  // Debounce delay of 500ms
     });
     </script>
 </head>
