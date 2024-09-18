@@ -8,6 +8,8 @@
 
 - [Urls And Views](https://forms.gle/sBKHwZEBTLqYSqABA)
 
+- [Template Basics](https://forms.gle/HcGocE65cPm6BZNH8)
+
 ---
 
 # Plans
