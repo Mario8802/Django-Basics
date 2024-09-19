@@ -323,14 +323,12 @@
 
 ---
 
----
-
 ### 04. Template Basics
 
 1. Django Template Language(DTL)
    - Използваме, за рендерираме информацията от view-тата
    - Позволява ни да пишем html, които в зависимост от данните да бъде различен
-   - Единственият език, които Django поддържа out of the box
+   - Единствените езици, които Django поддържа out of the box DTL и Jinja2
    - Има други алтернативи като `Jinja2`
    - С него правим Sever Side Rendering(SSR)
    - Настройките по подразбиране за DTL можем да намерим в `settings.py`
