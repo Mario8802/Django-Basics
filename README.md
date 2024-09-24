@@ -2,9 +2,12 @@
 
 ---
 
+### Workshops
 - [Petstagram Repo](https://github.com/DiyanKalaydzhiev23/petstagram-2024.git)
 
 ---
+
+### Theory Tests
 
 - [HTTP and Internet](https://forms.gle/SF9gSGPJta1CUkkz6)
 
