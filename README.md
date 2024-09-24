@@ -2,6 +2,10 @@
 
 ---
 
+- [Petstagram Repo](https://github.com/DiyanKalaydzhiev23/petstagram-2024.git)
+
+---
+
 - [HTTP and Internet](https://forms.gle/SF9gSGPJta1CUkkz6)
 
 - [Django Introduction](https://forms.gle/j4t4yWyBXu42a1uu6)
