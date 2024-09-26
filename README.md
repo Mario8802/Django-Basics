@@ -17,6 +17,8 @@
 
 - [Template Basics](https://forms.gle/HcGocE65cPm6BZNH8)
 
+- [Forms Basics](https://forms.gle/5yoEyfecjhFnwKqEA)
+
 ---
 
 # Plans
