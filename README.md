@@ -633,18 +633,31 @@
    ```
    - Tag - връща Template Node с render функцията
    ```py
-   from django import template
-   from django.template import Node
-   
-   register = template.Library()
-   
-   class ExampleNode(Node):
-       def render(self, context):
-           return "This is a custom tag"
-   
-   @register.tag
-   def custom_tag(parser, token):
-       return ExampleNode()
+
+      # Register an instance of Library to register custom template tags
+      register = template.Library()
+      
+      # Define a custom Node class for the 'uppercase' tag
+      class UppercaseNode(Node):
+          def __init__(self, nodelist):
+              # nodelist is the content between the custom opening and closing tags
+              self.nodelist = nodelist
+      
+          def render(self, context):
+              # Render the content between the tags using the current context
+              output = self.nodelist.render(context)
+              # Convert the rendered content to uppercase before returning it
+              return output.upper()
+      
+      # Register a custom template tag named "uppercase"
+      @register.tag(name="uppercase")
+      def do_uppercase(parser, token):
+          # Parse everything between {% uppercase %} and {% enduppercase %}
+          nodelist = parser.parse(('enduppercase',))
+          # Remove the 'enduppercase' token from the parsing queue
+          parser.delete_first_token()
+          # Return an instance of the custom UppercaseNode with the parsed nodelist
+          return UppercaseNode(nodelist)
    ```
 
 5. Bootstrap
