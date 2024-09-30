@@ -19,6 +19,8 @@
 
 - [Forms Basics](https://forms.gle/5yoEyfecjhFnwKqEA)
 
+- [Templates Advanced](https://forms.gle/B7UBVNxyNDBhycrQ9)
+
 ---
 
 # Plans
@@ -446,4 +448,207 @@
 
 ---
 
+---
+
+### Forms Basics
+
+1. Какво са формите
+   - Начин клиента да изпраща данни на съвъра
+   - Пример: search bar-а на Софтуни
+   - Основни параметри на формите
+     - action
+       - подаваме url към, който искаме да се изпратят нашите данни
+       - default value -> current_url
+     - method
+       - подаваме метода, който искаме да има нашата заявка
+       - default value ->  GET 
+       - При GET, информацията от формата се подава като query в url-a
+       - При POST/PUT, информацията се подава като body
+      
+2. Form fields
+   - Формите събират информация от input полетата в себе си
+   - Полетата трябва да имат параметър name, за да можем да ги прочетем от бек енда
+   - Можем да видим пратените данни в payload на request в браузъра 
+  
+3. Input types
+   - email
+   - range
+   - number
+   - text
+   - password
+   - url
+   - hidden
+   - radio
+   - checkbox 
+
+4. Textarea
+   - Input e single-line
+   - ТеxtArea е multi-line
+  
+5. Dropdowns
+   ```html
+      <select>
+         <option value="1">Gaming</option>
+         <option value="2 ">Reading</option>
+      </select>
+   ```
+
+6. Форми в Django
+   - Създаваме ги във `forms.py`
+   ```py
+      class EmployeeForm(forms.Form):
+         first_name = forms.CharField(
+               max_length=35,
+               required=True,
+         )
+   ```
+
+   - В темплейта
+   ```html
+   <form action="{% url 'index' %}" method="post" >
+      {{ employee_form }}
+      {% csrf_token %}
+      <button>Send</button>
+   </form>
+   ```
+
+   - Във view-то
+   ```py
+      def index(request):
+         if request.method == "GET":
+            context = {
+               "employee_form": EmployeeForm,
+            }
+   
+            return render(request, "web/index.html", context)
+         else:
+            print(request.POST)  # get the data but without any validation
+            form = EmployeeForm(request.POST)
+
+            if form.is_valid(): # starts validation process returns boolean
+               print(form.cleaned_data["first_name"])
+               return redirect('index')
+            else:
+               context = {
+                  "employee_form": form,  # подаваме формата с грешките в нея
+               }
+
+               return render(reques t, "web/index.html", context)
+   ```
+
+---
+
+### Templates Advanced
+
+1. Template Inheritance
+   - Позолява ни да разширим html файл
+   - Можем да го използваме за персонализирани стилове на всяка страница {% block styles %}{% endblock %} - in header
+   - `base.html`
+   ```html
+   <html>
+      <h1>Hello</h1>
+      {% block content %}
+      {% endblock %}
+   </html>   
+   ```
+
+   - `my-extending-file.html`
+   ```html
+      {% extends 'base.html' %}
+   
+      {% block content %}
+         <p>Extending code</p>
+      {% endblock %}
+   ```
+
+2. Template Including
+   - С цел преизползване на един html на много места, можем да го вместим/инжектираме в друг html файл
+   - `{% include 'reusable-file.html %}`
+   - Можем да подаваме параметри на вмъкнатия темплейт, които да достъпваме както достъпваме данните от контекста
+   - `{% include 'reusable-file.html with name="Hello" %}`
+  
+3. Custom Filters
+   - Създаваме модул в app-а ни, задължително с името `templatetags`
+   - В него създаваме в Python файл, нашия филтър
+   ```py
+      from django import template
+   
+      register = template.Library()
+      
+      @register.filter(name='custom_title')
+      def custom_title(value):
+          """Capitalizes the first letter of each word, except for specified words"""
+          exceptions = ['and', 'or', 'the', 'in', 'on', 'at', 'to', 'with', 'a', 'an']
+          words = value.split()
+          result = []
+          for word in words:
+              if word.lower() in exceptions and len(result) != 0:
+                  result.append(word.lower())
+              else:
+                  result.append(word.capitalize())
+          return ' '.join(result)
+   ```
+   - в html файла трябва да заредим файла с филтъра ни
+   - `{% load my_file_name %}`
+  
+4. Custom Tags
+   - Simple Tag - връща стринг
+  ```py
+   from django import template
+   
+   register = template.Library()
+   
+   @register.simple_tag
+   def simple_tag_example():
+       return "This is a simple tag"
+  ```
+   - Includsion Tag - връща html стринг базаиран на темплейт
+   ```py
+      from django import template
+      
+      register = template.Library()
+      
+      @register.inclusion_tag('user_info.html', takes_context=True)
+      def user_info(context, user, extra_info):
+          return {
+              'user': user,
+              'extra_info': extra_info,
+              'request': context['request']
+          }
+
+      <div class="user-info">
+          <h2>User Information</h2>
+          <p>Username: {{ user.username }}</p>
+          <p>Email: {{ user.email }}</p>
+          <p>Extra Info: {{ extra_info }}</p>
+      </div>
+ 
+      {% load my_tags %}
+      
+      <div>
+          {% user_info user "Additional details about the user" %}
+      </div>
+
+
+   ```
+   - Tag - връща Template Node с render функцията
+   ```py
+   from django import template
+   from django.template import Node
+   
+   register = template.Library()
+   
+   class ExampleNode(Node):
+       def render(self, context):
+           return "This is a custom tag"
+   
+   @register.tag
+   def custom_tag(parser, token):
+       return ExampleNode()
+   ```
+
+5. Bootstrap
+   - [Link](https://getbootstrap.com/)
+  
+---
 
