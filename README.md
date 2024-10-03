@@ -21,6 +21,8 @@
 
 - [Templates Advanced](https://forms.gle/B7UBVNxyNDBhycrQ9)
 
+- [Forms Advanced](https://forms.gle/NaT5UwYh1k1exaZb6)
+
 ---
 
 # Plans
