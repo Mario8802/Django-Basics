@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 MY_APPS = [
-    'djangoIntrodution.todo_app', # typo c = d 
+    'djangoIntrodution.todo_app', # typo djangoIntrodution + c
 ]
 
 INSTALLED_APPS = [
